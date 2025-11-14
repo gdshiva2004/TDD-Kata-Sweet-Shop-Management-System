@@ -1,28 +1,34 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import useAuth from "../hooks/useAuth";
-import anime from "animejs/lib/anime.es.js";
-
-
+import anime from "animejs/lib/anime.js";
 
 export default function LoginForm() {
   const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
   const btnRef = useRef(null);
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
+    setError(null);
     anime({
       targets: btnRef.current,
       scale: [1, 0.95, 1],
       duration: 300,
       easing: "easeOutQuad"
     });
-    login(email, password);
+    try {
+      console.log('ABOUT TO SEND LOGIN ->', { email: email.trim(), password });
+      await login(email.trim(), password);
+    } catch (err) {
+      setError((err.payload && (err.payload.error || JSON.stringify(err.payload))) || err.message || "Login failed");
+    }
   };
 
   return (
     <form onSubmit={submit} style={{ display: "grid", gap: 15 }}>
+      {error && <div style={{ color: "crimson" }}>{error}</div>}
       <input
         value={email}
         onChange={e => setEmail(e.target.value)}
@@ -34,7 +40,6 @@ export default function LoginForm() {
           fontSize: 16
         }}
       />
-
       <input
         type="password"
         value={password}
@@ -47,7 +52,6 @@ export default function LoginForm() {
           fontSize: 16
         }}
       />
-
       <button
         ref={btnRef}
         style={{

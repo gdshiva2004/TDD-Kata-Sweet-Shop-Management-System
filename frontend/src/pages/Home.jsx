@@ -1,12 +1,8 @@
 import { useEffect, useState } from "react";
 import api from "../utils/api";
 import SweetCard from "../components/SweetCard";
-import LoginForm from "../components/LoginForm";
-import RegisterForm from "../components/RegisterForm";
-import useAuth from "../hooks/useAuth";
 
 export default function Home() {
-  const { token } = useAuth();
   const [sweets, setSweets] = useState([]);
 
   useEffect(() => {
@@ -15,13 +11,18 @@ export default function Home() {
 
   return (
     <div style={{ padding: 20 }}>
-      {!token && (
-        <>
-          <LoginForm />
-          <RegisterForm />
-        </>
-      )}
-      {sweets.map(s => <SweetCard key={s._id} sweet={s} />)}
+      <h2>Available Sweets</h2>
+
+      <div style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
+        gap: 20,
+        marginTop: 20
+      }}>
+        {sweets.map(s => (
+          <SweetCard key={s._id} sweet={s} />
+        ))}
+      </div>
     </div>
   );
 }

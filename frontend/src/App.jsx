@@ -5,9 +5,11 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import Navbar from "./components/Navbar";
 import { AuthProvider } from "./context/AuthContext";
+import { FlashProvider } from "./context/FlashContext";
 
 export default function App() {
   return (
+    <FlashProvider>
     <AuthProvider>
       <Navbar />
       <Routes>
@@ -17,5 +19,6 @@ export default function App() {
         <Route path="/admin" element={<AdminPanel />} />
       </Routes>
     </AuthProvider>
+    </FlashProvider>
   );
 }

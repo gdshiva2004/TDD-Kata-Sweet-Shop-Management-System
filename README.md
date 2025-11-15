@@ -148,63 +148,63 @@ GitHub Copilot (occasionally)
 ## 🧩 How I Used AI
 1. ChatGPT — Primary Development Assistant
 
-I used ChatGPT extensively during this project for the following:
+- I used ChatGPT extensively during this project for the following:
 
-Debugging backend API issues
+- Debugging backend API issues
 
-Designing the MongoDB schema structure
+- Designing the MongoDB schema structure
 
-Implementing JWT authentication logic
+- Implementing JWT authentication logic
 
-Generating React component structures (Navbar, SweetCard, AdminPanel, Cart page)
+- Generating React component structures (Navbar, SweetCard, AdminPanel, Cart page)
 
-Creating CSS-in-JS styling
+- Creating CSS-in-JS styling
 
-Writing animations using Anime.js
+- Writing animations using Anime.js
 
-Creating the Cart system architecture (CartContext, useCart hook)
+- Creating the Cart system architecture (CartContext, useCart hook)
 
-Implementing optimistic UI updates and animations
+- Implementing optimistic UI updates and animations
 
-Generating commit messages in RED/GREEN/REFACTOR format
+- Generating commit messages in RED/GREEN/REFACTOR format
 
-Designing helper scripts like createAdmin.js
+- Designing helper scripts like createAdmin.js
 
-Writing README documentation
+- Writing README documentation
 
 Most importantly:
 
-I treated ChatGPT like a senior engineer reviewing my work.
+- I treated ChatGPT like a senior engineer reviewing my work.
 
-I iterated, tested, asked for fixes, and refined until the code met requirements.
+- I iterated, tested, asked for fixes, and refined until the code met requirements.
 
 2. GitHub Copilot — Inline Suggestions
 
-I used Copilot for:
+- I used Copilot for:
 
-Auto-completing repetitive React boilerplate
+- Auto-completing repetitive React boilerplate
 
-Speeding up writing effect hooks & small utility functions
+- Speeding up writing effect hooks & small utility functions
 
-Suggesting Mongoose model field types
+- Suggesting Mongoose model field types
 
-Copilot was used passively (inline suggestions), while ChatGPT was used purposefully (intentional queries).
+- Copilot was used passively (inline suggestions), while ChatGPT was used purposefully (intentional queries).
 
 ## Reflection: How AI Impacted My Workflow
-Using AI significantly accelerated development and improved structure. Key benefits:
+- Using AI significantly accelerated development and improved structure. Key benefits:
 
-Faster debugging: I resolved issues like route mismatches, context errors, and API response structure much faster.
+- Faster debugging: I resolved issues like route mismatches, context errors, and API response structure much faster.
 
-Cleaner architecture: AI helped design a modular Cart system and admin panel.
+- Cleaner architecture: AI helped design a modular Cart system and admin panel.
 
-Better UI/UX: Anime.js animations and component polish were AI-guided.
+- Better UI/UX: Anime.js animations and component polish were AI-guided.
 
-Learning boost: I deepened understanding of JWT, React Context, optimistic UI, and Express routing.
+- Learning boost: I deepened understanding of JWT, React Context, optimistic UI, and Express routing.
 
 However:
 
-I did not blindly copy AI output; I manually reviewed and modified everything.
+- I did not blindly copy AI output; I manually reviewed and modified everything.
 
-Several bugs required real debugging, experimenting, and verifying logic myself.
+- everal bugs required real debugging, experimenting, and verifying logic myself.
 
-AI was used as an assistant, not a replacement for my own reasoning.
+- AI was used as an assistant, not a replacement for my own reasoning.

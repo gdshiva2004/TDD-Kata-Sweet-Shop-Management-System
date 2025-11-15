@@ -1,3 +1,4 @@
+// src/pages/Home.jsx
 import { useEffect, useState } from "react";
 import anime from "animejs/lib/anime.js";
 import api from "../utils/api";
@@ -11,9 +12,29 @@ export default function Home() {
   const [msg, setMsg] = useState(null);
   const { token } = useAuth();
 
-  useEffect(() => {
-    api.get("/sweets").then(data => {
-      setSweets(data || []);
+  async function load() {
+    // read query params: name, category, minPrice, maxPrice
+    const params = new URLSearchParams(location.search);
+    const name = params.get("name");
+    const category = params.get("category");
+    const minPrice = params.get("minPrice");
+    const maxPrice = params.get("maxPrice");
+
+    try {
+      if (name || category || minPrice || maxPrice) {
+        // build query string for search endpoint
+        const qs = new URLSearchParams();
+        if (name) qs.set("name", name);
+        if (category) qs.set("category", category);
+        if (minPrice) qs.set("minPrice", minPrice);
+        if (maxPrice) qs.set("maxPrice", maxPrice);
+        const data = await api.get(`/sweets/search?${qs.toString()}`);
+        setSweets(data || []);
+      } else {
+        const data = await api.get("/sweets");
+        setSweets(data || []);
+      }
+
       setTimeout(() => {
         anime({
           targets: ".sweet-card",
@@ -25,8 +46,16 @@ export default function Home() {
           easing: "easeOutCubic"
         });
       }, 80);
-    }).catch(() => {});
-  }, []);
+    } catch (e) {
+      console.error("Failed to load sweets", e);
+      setSweets([]);
+    }
+  }
+
+  useEffect(() => {
+    load();
+    // reload whenever query string changes
+  }, [location.search]);
 
   useEffect(() => {
     if (location.state?.message) {
@@ -40,19 +69,16 @@ export default function Home() {
     if (sweet.quantity <= 0) return;
     setMsg(null);
 
-    const prev = sweets;
     // optimistic update
     setSweets(prevList => prevList.map(s => s._id === sweet._id ? { ...s, quantity: s.quantity - 1 } : s));
 
     try {
       const res = await api.post(`/sweets/${sweet._id}/purchase`, {}, token);
-      // If backend returns updated sweet use it
       if (res && res.sweet) {
         setSweets(prevList => prevList.map(s => s._id === sweet._id ? res.sweet : s));
         setMsg("Purchase successful");
         setTimeout(() => setMsg(null), 2200);
       } else {
-        // If no sweet returned, re-fetch single or full list to sync
         const refreshed = await api.get("/sweets");
         setSweets(refreshed || []);
         setMsg("Purchase completed");

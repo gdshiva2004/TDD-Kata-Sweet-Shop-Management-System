@@ -1,28 +1,71 @@
 import { useState, useRef } from "react";
-import api from "../utils/api";
-import anime from "animejs";
+import { useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
+import anime from "animejs/lib/anime.js";
 
 export default function RegisterForm() {
+  const { register } = useAuth();
+  const navigate = useNavigate();
+
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState("");
   const btnRef = useRef(null);
 
   const submit = async (e) => {
     e.preventDefault();
+    setError(null);
+    setSuccess("");
+
     anime({
       targets: btnRef.current,
       scale: [1, 0.95, 1],
       duration: 300,
       easing: "easeOutQuad"
     });
-    await api.post("/auth/register", { email, password });
+
+    try {
+      await register({
+        name: name.trim(),
+        email: email.trim(),
+        password
+      });
+
+      setSuccess("Registration successful! Redirecting to login...");
+
+      setTimeout(() => navigate("/login"), 1200);
+    } catch (err) {
+      const msg =
+        (err && err.payload && (err.payload.error || JSON.stringify(err.payload))) ||
+        err.message ||
+        "Registration failed";
+      setError(msg);
+    }
   };
 
   return (
-    <form onSubmit={submit} style={{ display: "grid", gap: 15 }}>
+    <form onSubmit={submit} style={{ display: "grid", gap: 12 }}>
+
+      {error && <div style={{ color: "crimson" }}>{error}</div>}
+      {success && <div style={{ color: "green" }}>{success}</div>}
+
+      <input
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        placeholder="Full name"
+        style={{
+          padding: 12,
+          borderRadius: 8,
+          border: "1px solid #ccc",
+          fontSize: 16
+        }}
+      />
+
       <input
         value={email}
-        onChange={e => setEmail(e.target.value)}
+        onChange={(e) => setEmail(e.target.value)}
         placeholder="Email"
         style={{
           padding: 12,
@@ -35,8 +78,8 @@ export default function RegisterForm() {
       <input
         type="password"
         value={password}
-        onChange={e => setPassword(e.target.value)}
-        placeholder="Password"
+        onChange={(e) => setPassword(e.target.value)}
+        placeholder="Password (min 6 chars)"
         style={{
           padding: 12,
           borderRadius: 8,

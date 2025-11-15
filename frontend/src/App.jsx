@@ -6,19 +6,24 @@ import RegisterPage from "./pages/RegisterPage";
 import Navbar from "./components/Navbar";
 import { AuthProvider } from "./context/AuthContext";
 import { FlashProvider } from "./context/FlashContext";
+import { CartProvider } from "./context/CartContext";
+import CartPage from "./pages/CartPage";
 
 export default function App() {
   return (
     <FlashProvider>
-    <AuthProvider>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/admin" element={<AdminPanel />} />
-      </Routes>
-    </AuthProvider>
+      <AuthProvider>
+        <CartProvider>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/admin" element={<AdminPanel />} />
+            <Route path="/cart" element={<CartPage />} />
+          </Routes>
+        </CartProvider>
+      </AuthProvider>
     </FlashProvider>
   );
 }

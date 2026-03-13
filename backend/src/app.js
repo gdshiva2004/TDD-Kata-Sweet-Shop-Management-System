@@ -5,6 +5,16 @@ const sweetsRoutes = require('./routes/sweets.routes');
 const cartRoutes = require('./routes/cart.routes');
 const app = express();
 app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:3000",
+      "https://tdd-kata-sweet-shop-management-system-1-v02m.onrender.com"
+    ],
+    credentials: true
+  })
+);
 app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/sweets', sweetsRoutes);
